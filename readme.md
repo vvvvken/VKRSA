@@ -5,7 +5,7 @@
 ## 使用
 ### 密钥生成
 ken_gen.sh 脚本文件已经上传。内容为：
-<pre>```
+<pre>
 //生成私钥
 openssl genrsa -out rsa_private_key.pem 2048
 //创建证书请求
@@ -16,7 +16,7 @@ openssl x509 -req -in cert.csr -out rsa_public_key.der -outform der -signkey rsa
 openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
 //生成pkcs8 PEM公钥
 openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt -out rsa_private_key_pkcs8.pem
-```</pre>
+</pre>
 
 ### 类说明
 
@@ -27,8 +27,8 @@ VKRSAKey | RSA密钥操作类
 NSError+VKRSA | NSError扩展，处理VKRSA相关错误
 
 ### VKRSA导出方法
+
 <pre>
-```
 + (NSData *)encryptData:(NSData *)data withKey:(SecKeyRef)keyRef ifError:(NSError**)error;
 + (NSData *)encryptData:(NSData *)data withPublicPem:(NSString*)pem ifError:(NSError**)error;
 + (NSData *)encryptString:(NSString*)string withPublicPem:(NSString*)pem ifError:(NSError**)error;
@@ -37,26 +37,22 @@ NSError+VKRSA | NSError扩展，处理VKRSA相关错误
 + (NSData *)decryptData:(NSData *)data withKey:(SecKeyRef)keyRef ifError:(NSError**)error;
 + (NSData *)decryptData:(NSData *)data withPrivatePem:(NSString*)pem ifError:(NSError**)error;
 + (NSString* )decryptString:(NSData *)data withPrivatePem:(NSString*)pem ifError:(NSError**)error;
-
-```
 </pre>
 
-
 ### 加密
-<li>用PEM证书对NSString加密
+<li>用PEM证书对NSString加密</li>
 <pre>
-```NSError *error = nil;
+NSError *error = nil;
 self.testStringEncryptResult = [VKRSA encryptString:self.testString withPublicPem:self.publicKeyPem ifError:&error];
 if(error){
     NSLog(@"NSString PEM 加密错误:%@", error.localizedDescription );
 }else{
     NSLog(@"NSString PEM 加密成功");
 }
-```</pre>
+</pre>
 
-<li>用PEM证书对NSData加密
+<li>用PEM证书对NSData加密</li>
 <pre>
-```
 NSError *error = nil;
 self.testDataEncryptResult = [VKRSA encryptData:self.testData withPublicPem:self.publicKeyPem ifError:&error];
 if(error){
@@ -64,11 +60,10 @@ if(error){
 }else{
     NSLog(@"NSData PEM 加密成功");
 }
-```</pre>
+</pre>
 
-<li>用DER证书对NSString加密
+<li>用DER证书对NSString加密</li>
 <pre>
-```
 NSError *error = nil;
 self.testStringEncryptResult = [VKRSA encryptString:self.testString withPublicDer:self.publicKeyDer ifError:&error];
 if(error){
@@ -76,11 +71,10 @@ if(error){
 }else{
     NSLog(@"NSString DER 加密成功");
 }
-```</pre>
+</pre>
 
-<li>用DER证书对NSData加密
+<li>用DER证书对NSData加密</li>
 <pre>
-```
 NSError *error = nil;
 self.testDataEncryptResult = [VKRSA encryptData:self.testData withPublicDer:self.publicKeyDer ifError:&error];
 if(error){
@@ -88,12 +82,11 @@ if(error){
 }else{
     NSLog(@"NSData DER 加密成功");
 }
-```</pre>
+</pre>
 
 ### 解密
-<li>用PEM证书对NSString解密
+<li>用PEM证书对NSString解密</li>
 <pre>
-```
 NSError *error = nil;
 NSString* result = [VKRSA decryptString:self.testStringEncryptResult withPrivatePem:self.privateKeyPem ifError:&error];
     if(error){
@@ -101,11 +94,10 @@ NSString* result = [VKRSA decryptString:self.testStringEncryptResult withPrivate
 }else{
     NSLog(@"NSData PEM 加密成功");
 }
-```</pre>
+</pre>
 
-<li>用PEM证书对NSData解密
+<li>用PEM证书对NSData解密</li>
 <pre>
-```
 NSError *error = nil;
 self.testDataEncryptResult = [VKRSA encryptData:self.testData withPublicDer:self.publicKeyDer ifError:&error];
 if(error){
@@ -113,5 +105,5 @@ if(error){
 }else{
     NSLog(@"NSData PEM 加密成功");
 }
-```</pre>
+</pre>
 
