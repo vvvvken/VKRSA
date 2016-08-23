@@ -134,7 +134,7 @@
     NSError *error = nil;
     
     clock_t tickStart = clock();
-    self.testDataEncryptResult = [VKRSA encryptData:self.testData withPublicPem:self.publicKeyPem ifError:&error];
+    self.testDataEncryptResult = [VKRSA encryptData:self.testData withPublicDer:self.publicKeyDer ifError:&error];
     clock_t time = clock() - tickStart;
     
     if(error)
