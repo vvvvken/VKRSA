@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		85BF26461D6D35C900B4746F /* VKRSAOperator.m in Sources */ = {isa = PBXBuildFile; fileRef = 85BF26451D6D35C900B4746F /* VKRSAOperator.m */; };
 		85C2A8A51D6CA0D50012CE13 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2A8A41D6CA0D50012CE13 /* main.m */; };
 		85C2A8A81D6CA0D50012CE13 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2A8A71D6CA0D50012CE13 /* AppDelegate.m */; };
 		85C2A8AB1D6CA0D50012CE13 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2A8AA1D6CA0D50012CE13 /* ViewController.m */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		85BF26441D6D35C900B4746F /* VKRSAOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VKRSAOperator.h; sourceTree = "<group>"; };
+		85BF26451D6D35C900B4746F /* VKRSAOperator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VKRSAOperator.m; sourceTree = "<group>"; };
 		85C2A8A01D6CA0D50012CE13 /* VKRSA_iOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKRSA_iOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85C2A8A41D6CA0D50012CE13 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		85C2A8A61D6CA0D50012CE13 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 				85C2A8BF1D6CA1460012CE13 /* NSError+VKRSA.m */,
 				85C2A8C11D6CA1990012CE13 /* VKRSAKey.h */,
 				85C2A8C21D6CA1990012CE13 /* VKRSAKey.m */,
+				85BF26441D6D35C900B4746F /* VKRSAOperator.h */,
+				85BF26451D6D35C900B4746F /* VKRSAOperator.m */,
 			);
 			path = VKRSA;
 			sourceTree = "<group>";
@@ -206,6 +211,7 @@
 			files = (
 				85C2A8C01D6CA1460012CE13 /* NSError+VKRSA.m in Sources */,
 				85C2A8AB1D6CA0D50012CE13 /* ViewController.m in Sources */,
+				85BF26461D6D35C900B4746F /* VKRSAOperator.m in Sources */,
 				85C2A8BD1D6CA1150012CE13 /* VKRSA.m in Sources */,
 				85C2A8A81D6CA0D50012CE13 /* AppDelegate.m in Sources */,
 				85C2A8A51D6CA0D50012CE13 /* main.m in Sources */,

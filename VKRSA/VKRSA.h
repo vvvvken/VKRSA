@@ -1,6 +1,6 @@
 //
 //  VKRSA.h
-//  VKRSA_iOSDemo
+//  VKRSA
 //
 //  Created by vkenchen on 16/8/23.
 //  Copyright © 2016年 Vkenchen. All rights reserved.

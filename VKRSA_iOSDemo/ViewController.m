@@ -9,6 +9,8 @@
 #import "ViewController.h"
 
 #import "VKRSA.h"
+#import "VKRSAOperator.h"
+
 
 
 @interface ViewController ()
@@ -23,6 +25,9 @@
 
 @property(nonatomic,retain) NSData*     testStringEncryptResult;
 @property(nonatomic,retain) NSData*     testDataEncryptResult;
+
+@property(nonatomic,retain) NSData*     testStringEncryptResultFromRSAOperator;
+@property(nonatomic,retain) NSData*     testDataEncryptResultFromRSAOperator;
 
 @end
 
@@ -49,6 +54,36 @@
     file = [[NSBundle mainBundle]pathForResource:@"keystore" ofType:@"jwks"];
     _testData = [NSData dataWithContentsOfFile:file];
     
+    
+    [self setupRSAOperator];
+    
+}
+
+-(void)setupRSAOperator
+{
+    clock_t tickStart = clock();
+    BOOL privateReady =  [[VKRSAOperator defaultOperator]setupPrivateKeyWithPEM:self.privateKeyPem];
+    clock_t time = clock() - tickStart;
+    if(privateReady)
+    {
+        NSLog(@"VKRSAOperator PEM 私钥创建成功,用时：%lu 毫秒",time);
+    }else{
+        NSLog(@"VKRSAOperator PEM 私钥创建失败，原因：%@",[[VKRSAOperator defaultOperator] lastErrorDescription]);
+    }
+    
+    
+    tickStart = clock();
+    BOOL publickReady = [[VKRSAOperator defaultOperator]setupPublicKeyWithDER:self.publicKeyDer];
+    time = clock() - tickStart;
+    if(publickReady)
+    {
+        NSLog(@"VKRSAOperator DER 公钥创建成功,用时：%lu 毫秒",time);
+    }else{
+        NSLog(@"VKRSAOperator DER 公钥创建失败，原因：%@",[[VKRSAOperator defaultOperator] lastErrorDescription]);
+    }
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,9 +102,9 @@
     
     if(error)
     {
-        NSLog(@"NSString PEM 加密错误:%@", error.localizedDescription );
+        NSLog(@"VKRSA NSString PEM 加密错误:%@", error.localizedDescription );
     }else{
-        NSLog(@"NSString PEM 加密成功，用时：%lu 毫秒",time);
+        NSLog(@"VKRSA NSString PEM 加密成功，用时：%lu 毫秒",time);
     }
     
 }
@@ -83,11 +118,21 @@
     
     if(error)
     {
-        NSLog(@"NSString DER 加密错误:%@", error.localizedDescription );
+        NSLog(@"VKRSA NSString DER 加密错误:%@", error.localizedDescription );
     }else{
-        NSLog(@"NSString DER 加密成功，用时：%lu 毫秒",time);
+        NSLog(@"VKRSA NSString DER 加密成功，用时：%lu 毫秒",time);
     }
     
+    
+    tickStart = clock();
+    self.testStringEncryptResultFromRSAOperator = [[VKRSAOperator defaultOperator]encryptUTF8String:self.testString];
+    clock_t timeOperator = clock() - tickStart;
+    if(self.testStringEncryptResultFromRSAOperator == nil)
+    {
+        NSLog(@"VKRSAOperator NSString DER 加密错误:%@",[[VKRSAOperator defaultOperator] lastErrorDescription]);
+    }else{
+        NSLog(@"VKRSAOperator NSString DER 加密成功，用时：%lu 毫秒",timeOperator);
+    }
     
 }
 - (IBAction)onDecryptStringWithPEM:(id)sender {
@@ -100,12 +145,21 @@
     NSString* result = [VKRSA decryptString:self.testStringEncryptResult withPrivatePem:self.privateKeyPem ifError:&error];
     
     clock_t time = clock() - tickStart;
-    
     if(error)
     {
-        NSLog(@"NSString PEM 解密错误:%@", error.localizedDescription );
+        NSLog(@"VKRSA NSString PEM 解密错误:%@", error.localizedDescription );
     }else{
-        NSLog(@"NSString PEM 解密成功，用时：%lu 毫秒，\r结果为：%@",time,result);
+        NSLog(@"VKRSA NSString PEM 解密成功，用时：%lu 毫秒，\r结果为：%@",time,result);
+    }
+    
+    tickStart = clock();
+    NSString* resultFromRSAOperator = [[VKRSAOperator defaultOperator]decryptUTF8String:self.testStringEncryptResultFromRSAOperator];
+    clock_t timeOperator = clock() - tickStart;
+    if(resultFromRSAOperator == nil)
+    {
+        NSLog(@"VKRSAOperator NSString DER 解密错误:%@",[[VKRSAOperator defaultOperator] lastErrorDescription]);
+    }else{
+        NSLog(@"VKRSAOperator NSString DER 解密成功，用时：%lu 毫秒，\r结果为：%@",timeOperator,resultFromRSAOperator);
     }
     
 }
@@ -121,12 +175,10 @@
     
     if(error)
     {
-        NSLog(@"NSData PEM 加密错误:%@", error.localizedDescription );
+        NSLog(@"VKRSA NSData PEM 加密错误:%@", error.localizedDescription );
     }else{
-        NSLog(@"NSData PEM 加密成功，用时：%lu 毫秒",time);
+        NSLog(@"VKRSA NSData PEM 加密成功，用时：%lu 毫秒",time);
     }
-    
-    
     
 }
 - (IBAction)onEncryptDataWithDER:(id)sender {
@@ -139,12 +191,21 @@
     
     if(error)
     {
-        NSLog(@"NSData DER 加密错误:%@", error.localizedDescription );
+        NSLog(@"VKRSA NSData DER 加密错误:%@", error.localizedDescription );
     }else{
-        NSLog(@"NSData DER  加密成功，用时：%lu 毫秒",time);
+        NSLog(@"VKRSA NSData DER  加密成功，用时：%lu 毫秒",time);
     }
     
     
+    tickStart = clock();
+    self.testDataEncryptResultFromRSAOperator = [[VKRSAOperator defaultOperator]encryptData:self.testData];
+    clock_t timeOperator = clock() - tickStart;
+    if(self.testDataEncryptResultFromRSAOperator == nil)
+    {
+        NSLog(@"VKRSAOperator NSData DER 加密错误:%@",[[VKRSAOperator defaultOperator] lastErrorDescription]);
+    }else{
+        NSLog(@"VKRSAOperator NSData DER 加密成功，用时：%lu 毫秒",timeOperator);
+    }
     
 }
 - (IBAction)onDecryptDataWithPEM:(id)sender {
@@ -160,12 +221,24 @@
     
     if(error)
     {
-        NSLog(@"NSData PEM 解密错误:%@", error.localizedDescription );
+        NSLog(@"VKRSA NSData PEM 解密错误:%@", error.localizedDescription );
     }else{
         
         NSString* resultString = [[NSString alloc]initWithData:result encoding:NSUTF8StringEncoding];
         
-        NSLog(@"NSData PEM 解密成功，用时：%lu 毫秒，\r结果为：%@",time,resultString);
+        NSLog(@"VKRSA NSData PEM 解密成功，用时：%lu 毫秒，\r结果为：%@",time,resultString);
+    }
+    
+    
+    tickStart = clock();
+    NSData* resultOperator = [[VKRSAOperator defaultOperator]decryptData:self.testDataEncryptResultFromRSAOperator];
+    clock_t timeOperator = clock() - tickStart;
+    if(self.testDataEncryptResultFromRSAOperator == nil)
+    {
+        NSLog(@"VKRSAOperator NSData DER 加密错误:%@",[[VKRSAOperator defaultOperator] lastErrorDescription]);
+    }else{
+        NSString* resultString = [[NSString alloc]initWithData:resultOperator encoding:NSUTF8StringEncoding];
+        NSLog(@"VKRSAOperator NSData DER 加密成功，用时：%lu 毫秒,\r结果为：%@",timeOperator,resultString);
     }
     
 }
