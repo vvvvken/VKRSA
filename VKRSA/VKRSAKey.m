@@ -91,6 +91,10 @@ static NSData *base64_decode(NSString *str){
         return nil;
     }
     
+    //释放
+    CFRelease(certificate);
+    CFRelease(policy);
+    
     return publicKey;
 }
 
